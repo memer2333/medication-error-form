@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medication Error Reporting | Trichy SRM Medical College Hospital</title>
+  <meta name="description" content="Medication Error Reporting Form for Trichy SRM Medical College Hospital and Research Centre. Report medication errors securely.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="form-wrapper">
+
+    <!-- ========== Header ========== -->
+    <header class="form-header">
+      <div class="header-icon">🏥</div>
+      <h1>Medication Error Reporting Form</h1>
+      <p class="header-subtitle">TRICHY SRM MEDICAL COLLEGE HOSPITAL AND RESEARCH CENTRE</p>
+      <p class="header-note">Fields marked with <span class="required-star">*</span> are required</p>
+    </header>
+
+    <form id="errorReportForm" novalidate>
+
+      <!-- ========== Section 1: Patient Information ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">1</div>
+          <div class="section-title">Patient Information</div>
+        </div>
+        <div class="section-body">
+
+          <!-- Patient Name (full width) -->
+          <div class="form-group">
+            <label for="patientName">Patient Name <span class="required-star">*</span></label>
+            <input type="text" id="patientName" name="patientName" placeholder="Enter patient's full name" required>
+          </div>
+
+          <!-- Age / Gender / Date of Admission -->
+          <div class="form-row three-col">
+            <div class="form-group">
+              <label for="age">Age <span class="required-star">*</span></label>
+              <input type="number" id="age" name="age" placeholder="e.g. 45" min="0" max="150" required>
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender <span class="required-star">*</span></label>
+              <select id="gender" name="gender" required>
+                <option value="">Choose</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="dateOfAdmission">Date of Admission</label>
+              <input type="date" id="dateOfAdmission" name="dateOfAdmission">
+            </div>
+          </div>
+
+          <!-- Department / Ward No -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="department">Department <span class="required-star">*</span></label>
+              <select id="department" name="department" required>
+                <option value="">Choose</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Emergency">Emergency</option>
+                <option value="General Medicine">General Medicine</option>
+                <option value="General Surgery">General Surgery</option>
+                <option value="Respiratory">Respiratory</option>
+                <option value="ENT">ENT</option>
+                <option value="Ophthalmology">Ophthalmology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="OBS & GN">OBS &amp; GN</option>
+                <option value="ICU">ICU</option>
+                <option value="CCU">CCU</option>
+                <option value="RICU">RICU</option>
+                <option value="SICU">SICU</option>
+                <option value="OT">OT</option>
+                <option value="Private Ward">Private Ward</option>
+                <option value="Specialty">Specialty</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="wardNo">Ward No <span class="required-star">*</span></label>
+              <input type="text" id="wardNo" name="wardNo" placeholder="e.g. W-12" required>
+            </div>
+          </div>
+
+          <!-- Diagnosis (full width) -->
+          <div class="form-group">
+            <label for="diagnosis">Diagnosis <span class="required-star">*</span></label>
+            <input type="text" id="diagnosis" name="diagnosis" placeholder="Enter patient diagnosis" required>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Section 2: Error Details ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">2</div>
+          <div class="section-title">Error Details</div>
+        </div>
+        <div class="section-body">
+
+          <!-- Date & Time of Error / Reporting -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="errorDateTime">Date &amp; Time of Error Occurred <span class="required-star">*</span></label>
+              <input type="datetime-local" id="errorDateTime" name="errorDateTime" required>
+            </div>
+            <div class="form-group">
+              <label for="reportDateTime">Date &amp; Time of Reporting <span class="required-star">*</span></label>
+              <input type="datetime-local" id="reportDateTime" name="reportDateTime" required>
+            </div>
+          </div>
+
+          <!-- How was Error Identified? -->
+          <div class="form-group">
+            <label>How was Error Identified? <span class="required-star">*</span></label>
+            <div class="radio-group" data-name="howIdentified">
+              <input type="radio" name="howIdentified" value="Chart Review" id="howId_chartReview">
+              <div class="radio-option" data-value="Chart Review" onclick="selectRadio(this)">Chart Review</div>
+              <input type="radio" name="howIdentified" value="Others" id="howId_others">
+              <div class="radio-option" data-value="Others" onclick="selectRadio(this)">Others</div>
+            </div>
+          </div>
+
+          <!-- Professional Status -->
+          <div class="form-group">
+            <label>Professional Status of Person Involved</label>
+            <div class="radio-group" data-name="professionalStatus">
+              <input type="radio" name="professionalStatus" value="Physician" id="profStatus_physician">
+              <div class="radio-option" data-value="Physician" onclick="selectRadio(this)">Physician</div>
+              <input type="radio" name="professionalStatus" value="Pharmacist" id="profStatus_pharmacist">
+              <div class="radio-option" data-value="Pharmacist" onclick="selectRadio(this)">Pharmacist</div>
+              <input type="radio" name="professionalStatus" value="Nurse" id="profStatus_nurse">
+              <div class="radio-option" data-value="Nurse" onclick="selectRadio(this)">Nurse</div>
+              <input type="radio" name="professionalStatus" value="Others" id="profStatus_others">
+              <div class="radio-option" data-value="Others" onclick="selectRadio(this)">Others</div>
+            </div>
+          </div>
+
+          <!-- Name of Medication Involved -->
+          <div class="form-group">
+            <label for="medicationName">Name of Medication Involved</label>
+            <input type="text" id="medicationName" name="medicationName" placeholder="Enter medication name">
+          </div>
+
+          <!-- Type of Errors -->
+          <div class="form-group">
+            <label>Type of Errors <span class="required-star">*</span></label>
+            <div class="checkbox-group checkbox-grid" data-name="typeOfErrors">
+              <input type="checkbox" name="typeOfErrors" value="Prescribing" id="err_prescribing">
+              <div class="checkbox-option" data-value="Prescribing" onclick="toggleCheckbox(this)">Prescribing</div>
+              <input type="checkbox" name="typeOfErrors" value="Transcribing" id="err_transcribing">
+              <div class="checkbox-option" data-value="Transcribing" onclick="toggleCheckbox(this)">Transcribing</div>
+              <input type="checkbox" name="typeOfErrors" value="Dispensing" id="err_dispensing">
+              <div class="checkbox-option" data-value="Dispensing" onclick="toggleCheckbox(this)">Dispensing</div>
+              <input type="checkbox" name="typeOfErrors" value="Administration" id="err_administration">
+              <div class="checkbox-option" data-value="Administration" onclick="toggleCheckbox(this)">Administration</div>
+              <input type="checkbox" name="typeOfErrors" value="Monitoring" id="err_monitoring">
+              <div class="checkbox-option" data-value="Monitoring" onclick="toggleCheckbox(this)">Monitoring</div>
+            </div>
+          </div>
+
+          <!-- Brief Description of Error -->
+          <div class="form-group">
+            <label for="errorDescription">Brief Description of Error <span class="required-star">*</span></label>
+            <textarea id="errorDescription" name="errorDescription" placeholder="Describe the error in detail…" required></textarea>
+          </div>
+
+          <!-- Did the error reach the patient? -->
+          <div class="form-group">
+            <label>Did the error reach the patient? <span class="required-star">*</span></label>
+            <div class="radio-group" data-name="errorReachedPatient">
+              <input type="radio" name="errorReachedPatient" value="YES" id="reached_yes">
+              <div class="radio-option" data-value="YES" onclick="selectRadio(this)">YES</div>
+              <input type="radio" name="errorReachedPatient" value="NO" id="reached_no">
+              <div class="radio-option" data-value="NO" onclick="selectRadio(this)">NO</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Section 3: Outcome Category ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">3</div>
+          <div class="section-title">Outcome Category</div>
+        </div>
+        <div class="section-body">
+
+          <div class="form-group">
+            <label>Select the applicable outcome <span class="required-star">*</span></label>
+            <div data-name="outcomeCategory">
+              <input type="radio" name="outcomeCategory" value="A" id="outcome_a">
+              <div class="outcome-option" data-value="A" onclick="selectOutcome(this)">
+                <div class="outcome-badge">A</div>
+                <div class="outcome-text">Circumstances/Events with capacity to cause error</div>
+              </div>
+
+              <input type="radio" name="outcomeCategory" value="B" id="outcome_b">
+              <div class="outcome-option" data-value="B" onclick="selectOutcome(this)">
+                <div class="outcome-badge">B</div>
+                <div class="outcome-text">Error occurred but did not reach the patient (ERROR, NO HARM)</div>
+              </div>
+
+              <input type="radio" name="outcomeCategory" value="C" id="outcome_c">
+              <div class="outcome-option" data-value="C" onclick="selectOutcome(this)">
+                <div class="outcome-badge">C</div>
+                <div class="outcome-text">Error reached the patient but not cause harm (ERROR, NO HARM)</div>
+              </div>
+
+              <input type="radio" name="outcomeCategory" value="E" id="outcome_e">
+              <div class="outcome-option" data-value="E" onclick="selectOutcome(this)">
+                <div class="outcome-badge">E</div>
+                <div class="outcome-text">Error reached the patient and resulted in temporary harm and required intervention (ERROR, HARM)</div>
+              </div>
+
+              <input type="radio" name="outcomeCategory" value="F" id="outcome_f">
+              <div class="outcome-option" data-value="F" onclick="selectOutcome(this)">
+                <div class="outcome-badge">F</div>
+                <div class="outcome-text">Error reached the patient and resulted in temporary harm and required initial/prolonged hospitalization (ERROR, HARM)</div>
+              </div>
+
+              <input type="radio" name="outcomeCategory" value="G" id="outcome_g">
+              <div class="outcome-option" data-value="G" onclick="selectOutcome(this)">
+                <div class="outcome-badge">G</div>
+                <div class="outcome-text">Error reached the patient and resulted in permanent harm (ERROR, HARM)</div>
+              </div>
+
+              <input type="radio" name="outcomeCategory" value="H" id="outcome_h">
+              <div class="outcome-option" data-value="H" onclick="selectOutcome(this)">
+                <div class="outcome-badge">H</div>
+                <div class="outcome-text">Error reached the patient and required intervention necessary to sustain life (ERROR, HARM)</div>
+              </div>
+
+              <input type="radio" name="outcomeCategory" value="I" id="outcome_i">
+              <div class="outcome-option" data-value="I" onclick="selectOutcome(this)">
+                <div class="outcome-badge">I</div>
+                <div class="outcome-text">Error reached the patient and contributed to patient death (ERROR, SENTINEL EVENT)</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Section 4: Root Cause Analysis ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">4</div>
+          <div class="section-title">Root Cause Analysis</div>
+        </div>
+        <div class="section-body">
+
+          <!-- PEOPLE -->
+          <div class="category-label">People</div>
+          <div class="checkbox-group checkbox-grid" data-name="rootCausePeople">
+            <input type="checkbox" name="rootCausePeople" value="Casual attitude" id="rcp_casual">
+            <div class="checkbox-option" data-value="Casual attitude" onclick="toggleCheckbox(this)">Casual attitude</div>
+
+            <input type="checkbox" name="rootCausePeople" value="Physically unfit" id="rcp_physUnfit">
+            <div class="checkbox-option" data-value="Physically unfit" onclick="toggleCheckbox(this)">Physically unfit</div>
+
+            <input type="checkbox" name="rootCausePeople" value="Inexperienced/New staff" id="rcp_inexperienced">
+            <div class="checkbox-option" data-value="Inexperienced/New staff" onclick="toggleCheckbox(this)">Inexperienced/New staff</div>
+
+            <input type="checkbox" name="rootCausePeople" value="Untrained staff" id="rcp_untrained">
+            <div class="checkbox-option" data-value="Untrained staff" onclick="toggleCheckbox(this)">Untrained staff</div>
+
+            <input type="checkbox" name="rootCausePeople" value="Hurry" id="rcp_hurry">
+            <div class="checkbox-option" data-value="Hurry" onclick="toggleCheckbox(this)">Hurry</div>
+
+            <input type="checkbox" name="rootCausePeople" value="Emotionally Unfit" id="rcp_emotionallyUnfit">
+            <div class="checkbox-option" data-value="Emotionally Unfit" onclick="toggleCheckbox(this)">Emotionally Unfit</div>
+
+            <input type="checkbox" name="rootCausePeople" value="No cross checking" id="rcp_noCrossCheck">
+            <div class="checkbox-option" data-value="No cross checking" onclick="toggleCheckbox(this)">No cross checking</div>
+          </div>
+
+          <!-- PROCESS -->
+          <div class="category-label">Process</div>
+          <div class="checkbox-group checkbox-grid" data-name="rootCauseProcess">
+            <input type="checkbox" name="rootCauseProcess" value="Wrong indent / receiving" id="rcpr_wrongIndent">
+            <div class="checkbox-option" data-value="Wrong indent / receiving" onclick="toggleCheckbox(this)">Wrong indent / receiving</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="Ten rights not observed" id="rcpr_tenRights">
+            <div class="checkbox-option" data-value="Ten rights not observed" onclick="toggleCheckbox(this)">Ten rights not observed</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="Wrong Stocking" id="rcpr_wrongStocking">
+            <div class="checkbox-option" data-value="Wrong Stocking" onclick="toggleCheckbox(this)">Wrong Stocking</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="Unauthorized replacement of drug" id="rcpr_unauthorized">
+            <div class="checkbox-option" data-value="Unauthorized replacement of drug" onclick="toggleCheckbox(this)">Unauthorized replacement of drug</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="Patient Identification Error" id="rcpr_patientIdError">
+            <div class="checkbox-option" data-value="Patient Identification Error" onclick="toggleCheckbox(this)">Patient Identification Error</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="Wrong labelling for dispensing medicine" id="rcpr_wrongLabelling">
+            <div class="checkbox-option" data-value="Wrong labelling for dispensing medicine" onclick="toggleCheckbox(this)">Wrong labelling for dispensing medicine</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="LASA error" id="rcpr_lasa">
+            <div class="checkbox-option" data-value="LASA error" onclick="toggleCheckbox(this)">LASA error</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="Shift change time / on doctors" id="rcpr_shiftChange">
+            <div class="checkbox-option" data-value="Shift change time / on doctors" onclick="toggleCheckbox(this)">Shift change time / on doctors</div>
+
+            <input type="checkbox" name="rootCauseProcess" value="Illegible Handwriting" id="rcpr_illegible">
+            <div class="checkbox-option" data-value="Illegible Handwriting" onclick="toggleCheckbox(this)">Illegible Handwriting</div>
+          </div>
+
+          <!-- ENVIRONMENT -->
+          <div class="category-label">Environment</div>
+          <div class="checkbox-group checkbox-grid" data-name="rootCauseEnvironment">
+            <input type="checkbox" name="rootCauseEnvironment" value="Pharmacy - poor drug storage" id="rce_poorStorage">
+            <div class="checkbox-option" data-value="Pharmacy - poor drug storage" onclick="toggleCheckbox(this)">Pharmacy - poor drug storage</div>
+
+            <input type="checkbox" name="rootCauseEnvironment" value="Stock out" id="rce_stockOut">
+            <div class="checkbox-option" data-value="Stock out" onclick="toggleCheckbox(this)">Stock out</div>
+
+            <input type="checkbox" name="rootCauseEnvironment" value="Poor ventilation/lighting" id="rce_poorVentilation">
+            <div class="checkbox-option" data-value="Poor ventilation/lighting" onclick="toggleCheckbox(this)">Poor ventilation/lighting</div>
+
+            <input type="checkbox" name="rootCauseEnvironment" value="Pharmacy space constraint for storage" id="rce_spaceConstraint">
+            <div class="checkbox-option" data-value="Pharmacy space constraint for storage" onclick="toggleCheckbox(this)">Pharmacy space constraint for storage</div>
+
+            <input type="checkbox" name="rootCauseEnvironment" value="Pharmacy manpower constraint" id="rce_manpower">
+            <div class="checkbox-option" data-value="Pharmacy manpower constraint" onclick="toggleCheckbox(this)">Pharmacy manpower constraint</div>
+          </div>
+
+          <!-- EQUIPMENT -->
+          <div class="category-label">Equipment</div>
+          <div class="checkbox-group checkbox-grid" data-name="rootCauseEquipment">
+            <input type="checkbox" name="rootCauseEquipment" value="Defective syringe pump" id="rceq_syringePump">
+            <div class="checkbox-option" data-value="Defective syringe pump" onclick="toggleCheckbox(this)">Defective syringe pump</div>
+          </div>
+
+          <!-- Other Root Causes -->
+          <div class="form-group" style="margin-top:1.25rem;">
+            <label for="otherRootCauses">Other Root Causes</label>
+            <input type="text" id="otherRootCauses" name="otherRootCauses" placeholder="Specify any other root causes">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Section 5: Action Plan & Reporter Details ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">5</div>
+          <div class="section-title">Action Plan &amp; Reporter Details</div>
+        </div>
+        <div class="section-body">
+
+          <!-- Corrective Action -->
+          <div class="form-group">
+            <label for="correctiveAction">Corrective Action</label>
+            <textarea id="correctiveAction" name="correctiveAction" placeholder="Describe corrective action taken…"></textarea>
+          </div>
+
+          <!-- Preventive Action -->
+          <div class="form-group">
+            <label for="preventiveAction">Preventive Action</label>
+            <textarea id="preventiveAction" name="preventiveAction" placeholder="Describe preventive action planned…"></textarea>
+          </div>
+
+          <!-- Reporter Name -->
+          <div class="form-group">
+            <label for="reporterName">Reporter Name <span class="required-star">*</span></label>
+            <select id="reporterName" name="reporterName" required>
+              <option value="">Choose</option>
+              <option value="Dr. Senthilnathan">Dr. Senthilnathan</option>
+              <option value="Dr. NitheeshKumar">Dr. NitheeshKumar</option>
+              <option value="Dr. Priyadharshini">Dr. Priyadharshini</option>
+              <option value="Dr. Jeevanantham">Dr. Jeevanantham</option>
+              <option value="Dr. Sneha">Dr. Sneha</option>
+              <option value="Dr. Mohammed Ismail">Dr. Mohammed Ismail</option>
+            </select>
+          </div>
+
+          <!-- Error Picture -->
+          <div class="form-group">
+            <label>Error Picture <span class="required-star">*</span></label>
+            <div class="file-upload-area" id="fileUploadArea">
+              <div class="upload-icon">📸</div>
+              <p class="upload-text">Click or drag &amp; drop to upload</p>
+              <p class="upload-subtext">Supports: JPG, PNG, PDF, HEIC (Max 10MB)</p>
+              <input type="file" id="errorPicture" name="errorPicture" accept="image/*,.pdf,.heic" hidden>
+            </div>
+            <div class="file-preview" id="filePreview" style="display:none">
+              <span class="file-name" id="fileName"></span>
+              <span class="remove-file" id="removeFile">✕ Remove</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Submit ========== -->
+      <div class="submit-section">
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span id="btnText">Submit Report</span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- ========== Success Modal ========== -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-modal">
+        <div class="checkmark">✅</div>
+        <h2>Report Submitted Successfully!</h2>
+        <p>Your medication error report has been recorded. Thank you for helping improve patient safety.</p>
+        <button onclick="closeSuccessAndReset()" class="submit-btn" style="margin-top:1.5rem;padding:0.75rem 2rem;font-size:0.95rem;">Submit Another Report</button>
+      </div>
+    </div>
+
+    <!-- ========== Toast Container ========== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ========== Footer ========== -->
+    <footer class="footer">
+      <p>&copy; 2026 Trichy SRM Medical College Hospital and Research Centre</p>
+      <p>Department of Clinical Pharmacy</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
