@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Drug Approval | Trichy SRM Medical College</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="form-wrapper">
+
+    <!-- ========== Header ========== -->
+    <header class="form-header">
+      <div class="header-icon">📝</div>
+      <h1>New Drug Approval Documentation</h1>
+      <p class="header-subtitle">TRICHY SRM MEDICAL COLLEGE HOSPITAL AND RESEARCH CENTRE</p>
+      <p class="header-note">Fields marked with <span class="required-star">*</span> are required</p>
+      <div style="margin-top: 1rem;"><a href="index.html" style="color: white; font-size: 0.9rem; text-decoration: underline;">&larr; Back to Home</a></div>
+    </header>
+
+    <form id="newDrugApprovalForm" novalidate>
+      <input type="hidden" id="formType" value="NEW_DRUG_APPROVAL">
+
+      <!-- ========== Section 1: Drug Details ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">1</div>
+          <div class="section-title">Drug Details &amp; Upload</div>
+        </div>
+        <div class="section-body">
+
+          <div class="form-group">
+            <label for="drugName">Drug Name (Brand) <span class="required-star">*</span></label>
+            <input type="text" id="drugName" name="drugName" placeholder="Enter drug name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="genericName">Generic Name <span class="required-star">*</span></label>
+            <input type="text" id="genericName" name="genericName" placeholder="Enter generic name" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="manufacturer">Manufacturer <span class="required-star">*</span></label>
+              <input type="text" id="manufacturer" name="manufacturer" placeholder="Enter manufacturer name" required>
+            </div>
+            <div class="form-group">
+              <label for="price">Price <span class="required-star">*</span></label>
+              <input type="text" id="price" name="price" placeholder="e.g. $50.00" required>
+            </div>
+          </div>
+
+          <!-- Upload Document -->
+          <div class="form-group" style="margin-top: 2rem;">
+            <label>Upload Documentation Form <span class="required-star">*</span></label>
+            <div class="file-upload-area" id="fileUploadArea">
+              <div class="upload-icon">📄</div>
+              <p class="upload-text">Click or drag &amp; drop to upload</p>
+              <p class="upload-subtext">Supports: JPG, PNG, PDF, HEIC (Max 10MB)</p>
+              <input type="file" id="uploadFile" name="uploadFile" accept="image/*,.pdf,.heic" multiple hidden>
+            </div>
+            <div class="file-preview" id="filePreview" style="display:none">
+              <span class="file-name" id="fileName"></span>
+              <span class="remove-file" id="removeFile">✕ Remove</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Submit ========== -->
+      <div class="submit-section">
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span id="btnText">Submit Documentation</span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- ========== Success Modal ========== -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-modal">
+        <div class="checkmark">✅</div>
+        <h2>Submitted Successfully!</h2>
+        <p>The new drug approval documentation has been uploaded.</p>
+        <button onclick="closeSuccessAndReset()" class="submit-btn" style="margin-top:1.5rem;padding:0.75rem 2rem;font-size:0.95rem;">Submit Another</button>
+        <div style="margin-top: 1rem;">
+          <a href="index.html" style="color: #4F46E5; font-size: 0.9rem; text-decoration: underline;">Return to Home</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Toast Container ========== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ========== Footer ========== -->
+    <footer class="footer">
+      <p>&copy; 2026 Trichy SRM Medical College Hospital and Research Centre</p>
+      <p>Department of Clinical Pharmacy</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

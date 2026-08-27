@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADR Reporting Form | Trichy SRM Medical College</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="form-wrapper">
+
+    <!-- ========== Header ========== -->
+    <header class="form-header">
+      <div class="header-icon">💊</div>
+      <h1>ADR Reporting Form</h1>
+      <p class="header-subtitle">TRICHY SRM MEDICAL COLLEGE HOSPITAL AND RESEARCH CENTRE</p>
+      <p class="header-note">Fields marked with <span class="required-star">*</span> are required</p>
+      <div style="margin-top: 1rem;"><a href="index.html" style="color: white; font-size: 0.9rem; text-decoration: underline;">&larr; Back to Home</a></div>
+    </header>
+
+    <form id="adrReportForm" novalidate>
+      <input type="hidden" id="formType" value="ADR_REPORTING">
+
+      <!-- ========== Section 1: Patient Details ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">1</div>
+          <div class="section-title">Patient Details</div>
+        </div>
+        <div class="section-body">
+
+          <div class="form-group">
+            <label for="patientName">Patient Name <span class="required-star">*</span></label>
+            <input type="text" id="patientName" name="patientName" placeholder="Enter patient's full name" required>
+          </div>
+
+          <div class="form-row three-col">
+            <div class="form-group">
+              <label for="age">Age <span class="required-star">*</span></label>
+              <input type="number" id="age" name="age" placeholder="e.g. 45" min="0" max="150" required>
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender <span class="required-star">*</span></label>
+              <select id="gender" name="gender" required>
+                <option value="">Choose</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ward">Ward <span class="required-star">*</span></label>
+              <input type="text" id="ward" name="ward" placeholder="e.g. W-12" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== Section 2: Reaction Details ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">2</div>
+          <div class="section-title">Reaction Details</div>
+        </div>
+        <div class="section-body">
+
+          <div class="form-group">
+            <label for="suspectedDrug">Suspected Drug <span class="required-star">*</span></label>
+            <input type="text" id="suspectedDrug" name="suspectedDrug" placeholder="Name of suspected drug" required>
+          </div>
+
+          <div class="form-group">
+            <label for="reactionDetails">Reaction Details <span class="required-star">*</span></label>
+            <textarea id="reactionDetails" name="reactionDetails" placeholder="Describe the adverse drug reaction…" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Yellow Card Issued? <span class="required-star">*</span></label>
+            <div class="radio-group" data-name="yellowCardIssued">
+              <input type="radio" name="yellowCardIssued" value="YES" id="yellow_yes">
+              <div class="radio-option" data-value="YES" onclick="selectRadio(this)">YES</div>
+              <input type="radio" name="yellowCardIssued" value="NO" id="yellow_no">
+              <div class="radio-option" data-value="NO" onclick="selectRadio(this)">NO</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Section 3: Reporter Details & Upload ========== -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-number">3</div>
+          <div class="section-title">Reporter Details &amp; Upload</div>
+        </div>
+        <div class="section-body">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reporterName">Reporter Name <span class="required-star">*</span></label>
+              <input type="text" id="reporterName" name="reporterName" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+              <label for="department">Department <span class="required-star">*</span></label>
+              <input type="text" id="department" name="department" placeholder="Enter your department" required>
+            </div>
+          </div>
+
+          <!-- Upload Picture -->
+          <div class="form-group">
+            <label>Upload ADR Form Picture <span class="required-star">*</span></label>
+            <div class="file-upload-area" id="fileUploadArea">
+              <div class="upload-icon">📸</div>
+              <p class="upload-text">Click or drag &amp; drop to upload</p>
+              <p class="upload-subtext">Supports: JPG, PNG, PDF, HEIC (Max 10MB)</p>
+              <input type="file" id="uploadFile" name="uploadFile" accept="image/*,.pdf,.heic" multiple hidden>
+            </div>
+            <div class="file-preview" id="filePreview" style="display:none">
+              <span class="file-name" id="fileName"></span>
+              <span class="remove-file" id="removeFile">✕ Remove</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== Submit ========== -->
+      <div class="submit-section">
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span id="btnText">Submit ADR Report</span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- ========== Success Modal ========== -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-modal">
+        <div class="checkmark">✅</div>
+        <h2>Report Submitted!</h2>
+        <p>Your ADR report has been securely submitted.</p>
+        <button onclick="closeSuccessAndReset()" class="submit-btn" style="margin-top:1.5rem;padding:0.75rem 2rem;font-size:0.95rem;">Submit Another</button>
+        <div style="margin-top: 1rem;">
+          <a href="index.html" style="color: #4F46E5; font-size: 0.9rem; text-decoration: underline;">Return to Home</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Toast Container ========== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ========== Footer ========== -->
+    <footer class="footer">
+      <p>&copy; 2026 Trichy SRM Medical College Hospital and Research Centre</p>
+      <p>Department of Clinical Pharmacy</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

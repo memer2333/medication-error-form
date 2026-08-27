@@ -1,27 +1,23 @@
 // ============================================================
-// Medication Error Reporting Form — Frontend Script
+// Shared Frontend Script for All Forms
 // ============================================================
 
 // ⚠️ REPLACE THIS with your deployed Google Apps Script Web App URL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKC5LjEk5egIedZxG3nPFMuu1BYv_952NrLKSslY12/dev';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwz9Fr6KS46FigaAX_LzF5WjA2Bv8yhgw8Tn5b1ZXBNtEOtSu7Pybl5ggqr-1Me6qK7-w/exec';
 
 // ------------------------------------------------------------
 // Interactive Card Selection — Global Functions (inline onclick)
 // ------------------------------------------------------------
-
-// Radio: single-select within a group
 function selectRadio(el) {
   const group = el.closest('.radio-group');
   group.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
 }
 
-// Checkbox: multi-select toggle
 function toggleCheckbox(el) {
   el.classList.toggle('selected');
 }
 
-// Outcome category: single-select like radio
 function selectOutcome(el) {
   document.querySelectorAll('.outcome-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
@@ -30,57 +26,53 @@ function selectOutcome(el) {
 // ------------------------------------------------------------
 // File Upload Handling
 // ------------------------------------------------------------
-
 const fileUploadArea = document.getElementById('fileUploadArea');
-const fileInput = document.getElementById('errorPicture');
+const fileInput = document.getElementById('uploadFile') || document.getElementById('errorPicture');
 const filePreview = document.getElementById('filePreview');
 const fileNameEl = document.getElementById('fileName');
 const removeFileBtn = document.getElementById('removeFile');
 
-fileUploadArea.addEventListener('click', () => fileInput.click());
+if (fileUploadArea && fileInput) {
+  fileUploadArea.addEventListener('click', () => fileInput.click());
+  fileUploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.add('dragover');
+  });
+  fileUploadArea.addEventListener('dragleave', () => {
+    fileUploadArea.classList.remove('dragover');
+  });
+  fileUploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileUploadArea.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      showFilePreview(e.dataTransfer.files);
+    }
+  });
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length) showFilePreview(e.target.files);
+  });
+  removeFileBtn.addEventListener('click', () => {
+    fileInput.value = '';
+    filePreview.style.display = 'none';
+    fileUploadArea.style.display = '';
+  });
+}
 
-fileUploadArea.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  fileUploadArea.classList.add('dragover');
-});
-
-fileUploadArea.addEventListener('dragleave', () => {
-  fileUploadArea.classList.remove('dragover');
-});
-
-fileUploadArea.addEventListener('drop', (e) => {
-  e.preventDefault();
-  fileUploadArea.classList.remove('dragover');
-  if (e.dataTransfer.files.length) {
-    fileInput.files = e.dataTransfer.files;
-    showFilePreview(e.dataTransfer.files[0]);
+function showFilePreview(files) {
+  if (files.length === 1) {
+    fileNameEl.textContent = `📎 ${files[0].name} (${(files[0].size / 1024 / 1024).toFixed(2)} MB)`;
+  } else {
+    fileNameEl.textContent = `📎 ${files.length} files selected`;
   }
-});
-
-fileInput.addEventListener('change', (e) => {
-  if (e.target.files.length) showFilePreview(e.target.files[0]);
-});
-
-function showFilePreview(file) {
-  fileNameEl.textContent = `📎 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
   filePreview.style.display = 'flex';
   fileUploadArea.style.display = 'none';
 }
 
-removeFileBtn.addEventListener('click', () => {
-  fileInput.value = '';
-  filePreview.style.display = 'none';
-  fileUploadArea.style.display = '';
-});
-
-// ------------------------------------------------------------
-// File to Base64 Conversion
-// ------------------------------------------------------------
-
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]); // Strip data:…;base64, prefix
+    reader.onload = () => resolve(reader.result.split(',')[1]);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -89,7 +81,6 @@ function fileToBase64(file) {
 // ------------------------------------------------------------
 // Helpers — Get Selected Values via data-name attributes
 // ------------------------------------------------------------
-
 function getRadioValue(dataName) {
   const group = document.querySelector(`.radio-group[data-name="${dataName}"]`);
   if (!group) return '';
@@ -110,9 +101,8 @@ function getOutcomeValue() {
 }
 
 // ------------------------------------------------------------
-// Toast Notification
+// Toast Notification & Modal
 // ------------------------------------------------------------
-
 function showToast(message, type = 'success') {
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
@@ -125,143 +115,134 @@ function showToast(message, type = 'success') {
   }, 4000);
 }
 
-// ------------------------------------------------------------
-// Success Modal
-// ------------------------------------------------------------
-
 function showSuccessModal() {
   document.getElementById('successOverlay').classList.add('active');
 }
 
 function closeSuccessAndReset() {
   document.getElementById('successOverlay').classList.remove('active');
-  document.getElementById('errorReportForm').reset();
-  // Reset all card-style selections
+  document.querySelector('form').reset();
   document.querySelectorAll('.radio-option.selected, .checkbox-option.selected, .outcome-option.selected')
     .forEach(el => el.classList.remove('selected'));
-  // Reset file upload area
-  document.getElementById('filePreview').style.display = 'none';
-  document.getElementById('fileUploadArea').style.display = '';
-  // Scroll to top
+  if (filePreview) filePreview.style.display = 'none';
+  if (fileUploadArea) fileUploadArea.style.display = '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Make globally available for inline onclick in HTML
 window.selectRadio = selectRadio;
 window.toggleCheckbox = toggleCheckbox;
 window.selectOutcome = selectOutcome;
 window.closeSuccessAndReset = closeSuccessAndReset;
 
 // ------------------------------------------------------------
-// Form Validation
+// Dynamic Form Submission
 // ------------------------------------------------------------
+const formElement = document.querySelector('form');
 
-function validateForm() {
-  const errors = [];
+if (formElement) {
+  formElement.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  if (!document.getElementById('patientName').value.trim()) errors.push('Patient Name is required');
-  if (!document.getElementById('age').value.trim()) errors.push('Age is required');
-  if (!document.getElementById('gender').value) errors.push('Gender is required');
-  if (!document.getElementById('department').value) errors.push('Department is required');
-  if (!document.getElementById('wardNo').value.trim()) errors.push('Ward No is required');
-  if (!document.getElementById('diagnosis').value.trim()) errors.push('Diagnosis is required');
-  if (!document.getElementById('errorDateTime').value) errors.push('Date & Time of Error is required');
-  if (!document.getElementById('reportDateTime').value) errors.push('Date & Time of Reporting is required');
-  if (!getRadioValue('howIdentified')) errors.push('How was Error Identified is required');
-  if (!getCheckboxValues('typeOfErrors')) errors.push('Type of Errors is required');
-  if (!document.getElementById('errorDescription').value.trim()) errors.push('Brief Description of Error is required');
-  if (!getRadioValue('errorReachedPatient')) errors.push('Did the Error Reach the Patient is required');
-  if (!document.getElementById('reporterName').value) errors.push('Reporter Name is required');
-  if (!document.getElementById('errorPicture').files.length) errors.push('Error Picture is required');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const formType = document.getElementById('formType') ? document.getElementById('formType').value : 'MEDICATION_ERROR';
 
-  return errors;
+    // Basic dynamic validation: Check all required inputs
+    const requiredInputs = formElement.querySelectorAll('[required]');
+    for (let input of requiredInputs) {
+      if (!input.value.trim()) {
+        const label = input.closest('.form-group').querySelector('label').innerText.replace('*', '').trim();
+        showToast(`${label} is required`, 'error');
+        return;
+      }
+    }
+    
+    if (formType === 'ADR_REPORTING' && !getRadioValue('yellowCardIssued')) {
+      showToast('Yellow Card Issued is required', 'error'); return;
+    }
+
+    // Loading state
+    submitBtn.disabled = true;
+    btnText.innerHTML = '<span class="spinner"></span> Submitting...';
+
+    try {
+      let filesData = [];
+      if (fileInput && fileInput.files.length > 0) {
+        for (let i = 0; i < fileInput.files.length; i++) {
+          const file = fileInput.files[i];
+          const fileData = await fileToBase64(file);
+          filesData.push({
+            fileName: file.name,
+            fileMimeType: file.type,
+            fileData: fileData
+          });
+        }
+      }
+
+      // Build payload dynamically based on formType
+      const payload = { formType, files: filesData };
+
+      if (formType === 'ADR_REPORTING') {
+        payload.patientName = document.getElementById('patientName').value.trim();
+        payload.age = document.getElementById('age').value.trim();
+        payload.gender = document.getElementById('gender').value;
+        payload.ward = document.getElementById('ward').value.trim();
+        payload.suspectedDrug = document.getElementById('suspectedDrug').value.trim();
+        payload.reactionDetails = document.getElementById('reactionDetails').value.trim();
+        payload.yellowCardIssued = getRadioValue('yellowCardIssued');
+        payload.reporterName = document.getElementById('reporterName').value.trim();
+        payload.department = document.getElementById('department').value.trim();
+      } 
+      else if (formType === 'NEW_DRUG_APPROVAL') {
+        payload.drugName = document.getElementById('drugName').value.trim();
+        payload.genericName = document.getElementById('genericName').value.trim();
+        payload.manufacturer = document.getElementById('manufacturer').value.trim();
+        payload.price = document.getElementById('price').value.trim();
+      }
+      else {
+        // MEDICATION_ERROR
+        payload.patientName = document.getElementById('patientName').value.trim();
+        payload.age = document.getElementById('age').value.trim();
+        payload.gender = document.getElementById('gender').value;
+        payload.dateOfAdmission = document.getElementById('dateOfAdmission') ? document.getElementById('dateOfAdmission').value : '';
+        payload.department = document.getElementById('department').value;
+        payload.wardNo = document.getElementById('wardNo').value.trim();
+        payload.diagnosis = document.getElementById('diagnosis').value.trim();
+        payload.errorDateTime = document.getElementById('errorDateTime').value;
+        payload.reportDateTime = document.getElementById('reportDateTime').value;
+        payload.howIdentified = getRadioValue('howIdentified');
+        payload.professionalStatus = getRadioValue('professionalStatus');
+        payload.medicationName = document.getElementById('medicationName').value.trim();
+        payload.typeOfErrors = getCheckboxValues('typeOfErrors');
+        payload.errorDescription = document.getElementById('errorDescription').value.trim();
+        payload.errorReachedPatient = getRadioValue('errorReachedPatient');
+        payload.outcomeCategory = getOutcomeValue();
+        payload.rootCause = getCheckboxValues('rootCause');
+        payload.otherRootCauses = document.getElementById('otherRootCauses').value.trim();
+        payload.correctiveAction = document.getElementById('correctiveAction').value.trim();
+        payload.preventiveAction = document.getElementById('preventiveAction').value.trim();
+        payload.reporterName = document.getElementById('reporterName').value;
+      }
+
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        showSuccessModal();
+      } else {
+        showToast(result.message || 'Submission failed. Please try again.', 'error');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      showToast('Network error. Please check your connection and try again.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      btnText.textContent = 'Submit';
+    }
+  });
 }
-
-// ------------------------------------------------------------
-// Form Submission
-// ------------------------------------------------------------
-
-document.getElementById('errorReportForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  // Validate
-  const errors = validateForm();
-  if (errors.length > 0) {
-    showToast(errors[0], 'error');
-    return;
-  }
-
-  // Loading state
-  const submitBtn = document.getElementById('submitBtn');
-  const btnText = document.getElementById('btnText');
-  submitBtn.disabled = true;
-  btnText.innerHTML = '<span class="spinner"></span> Submitting...';
-
-  try {
-    // Prepare file data
-    let fileData = null;
-    let fileNameStr = '';
-    let fileMimeType = '';
-    const fileInputEl = document.getElementById('errorPicture');
-    if (fileInputEl.files.length > 0) {
-      const file = fileInputEl.files[0];
-      fileData = await fileToBase64(file);
-      fileNameStr = file.name;
-      fileMimeType = file.type;
-    }
-
-    // Build payload — keys MUST match Code.gs exactly
-    const payload = {
-      patientName: document.getElementById('patientName').value.trim(),
-      age: document.getElementById('age').value.trim(),
-      gender: document.getElementById('gender').value,
-      dateOfAdmission: document.getElementById('dateOfAdmission').value || '',
-      department: document.getElementById('department').value,
-      wardNo: document.getElementById('wardNo').value.trim(),
-      diagnosis: document.getElementById('diagnosis').value.trim(),
-      errorDateTime: document.getElementById('errorDateTime').value,
-      reportDateTime: document.getElementById('reportDateTime').value,
-      howIdentified: getRadioValue('howIdentified'),
-      professionalStatus: getRadioValue('professionalStatus'),
-      medicationName: document.getElementById('medicationName').value.trim(),
-      typeOfErrors: getCheckboxValues('typeOfErrors'),
-      errorDescription: document.getElementById('errorDescription').value.trim(),
-      errorReachedPatient: getRadioValue('errorReachedPatient'),
-      outcomeCategory: getOutcomeValue(),
-      rootCausePeople: getCheckboxValues('rootCausePeople'),
-      rootCauseProcess: getCheckboxValues('rootCauseProcess'),
-      rootCauseEnvironment: getCheckboxValues('rootCauseEnvironment'),
-      rootCauseEquipment: getCheckboxValues('rootCauseEquipment'),
-      otherRootCauses: document.getElementById('otherRootCauses').value.trim(),
-      correctiveAction: document.getElementById('correctiveAction').value.trim(),
-      preventiveAction: document.getElementById('preventiveAction').value.trim(),
-      reporterName: document.getElementById('reporterName').value,
-      // File data
-      fileName: fileNameStr,
-      fileMimeType: fileMimeType,
-      fileData: fileData
-    };
-
-    // Send to Google Apps Script
-    // Using 'text/plain' content-type to avoid CORS preflight request
-    const response = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    });
-
-    const result = await response.json();
-
-    if (result.status === 'success') {
-      showSuccessModal();
-    } else {
-      showToast(result.message || 'Submission failed. Please try again.', 'error');
-    }
-  } catch (error) {
-    console.error('Submission error:', error);
-    showToast('Network error. Please check your connection and try again.', 'error');
-  } finally {
-    submitBtn.disabled = false;
-    btnText.textContent = 'Submit Report';
-  }
-});
