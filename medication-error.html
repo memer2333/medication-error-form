@@ -17,7 +17,7 @@
       <div class="header-icon">🏥</div>
       <h1>Medication Error Reporting Form</h1>
       <p class="header-subtitle">TRICHY SRM MEDICAL COLLEGE HOSPITAL AND RESEARCH CENTRE</p>
-      <p class="header-note">Fields marked with <span class="required-star">*</span> are required</p>
+      <div style="margin-top: 1rem;"><a href="index.html" style="color: white; font-size: 0.9rem; text-decoration: underline;">&larr; Back to Home</a></div>
     </header>
 
     <form id="errorReportForm" novalidate>
@@ -32,19 +32,19 @@
 
           <!-- Patient Name (full width) -->
           <div class="form-group">
-            <label for="patientName">Patient Name <span class="required-star">*</span></label>
-            <input type="text" id="patientName" name="patientName" placeholder="Enter patient's full name" required>
+            <label for="patientName">Patient Name</label>
+            <input type="text" id="patientName" name="patientName" placeholder="Enter patient's full name">
           </div>
 
           <!-- Age / Gender / Date of Admission -->
           <div class="form-row three-col">
             <div class="form-group">
-              <label for="age">Age <span class="required-star">*</span></label>
-              <input type="number" id="age" name="age" placeholder="e.g. 45" min="0" max="150" required>
+              <label for="age">Age</label>
+              <input type="number" id="age" name="age" placeholder="e.g. 45" min="0" max="150">
             </div>
             <div class="form-group">
-              <label for="gender">Gender <span class="required-star">*</span></label>
-              <select id="gender" name="gender" required>
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender">
                 <option value="">Choose</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -60,8 +60,8 @@
           <!-- Department / Ward No -->
           <div class="form-row">
             <div class="form-group">
-              <label for="department">Department <span class="required-star">*</span></label>
-              <select id="department" name="department" required>
+              <label for="department">Department</label>
+              <select id="department" name="department">
                 <option value="">Choose</option>
                 <option value="Cardiology">Cardiology</option>
                 <option value="Neurology">Neurology</option>
@@ -85,15 +85,15 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="wardNo">Ward No <span class="required-star">*</span></label>
-              <input type="text" id="wardNo" name="wardNo" placeholder="e.g. W-12" required>
+              <label for="wardNo">Ward No</label>
+              <input type="text" id="wardNo" name="wardNo" placeholder="e.g. W-12">
             </div>
           </div>
 
           <!-- Diagnosis (full width) -->
           <div class="form-group">
-            <label for="diagnosis">Diagnosis <span class="required-star">*</span></label>
-            <input type="text" id="diagnosis" name="diagnosis" placeholder="Enter patient diagnosis" required>
+            <label for="diagnosis">Diagnosis</label>
+            <input type="text" id="diagnosis" name="diagnosis" placeholder="Enter patient diagnosis">
           </div>
 
         </div>
@@ -110,18 +110,18 @@
           <!-- Date & Time of Error / Reporting -->
           <div class="form-row">
             <div class="form-group">
-              <label for="errorDateTime">Date &amp; Time of Error Occurred <span class="required-star">*</span></label>
-              <input type="datetime-local" id="errorDateTime" name="errorDateTime" required>
+              <label for="errorDateTime">Date &amp; Time of Error Occurred</label>
+              <input type="datetime-local" id="errorDateTime" name="errorDateTime">
             </div>
             <div class="form-group">
-              <label for="reportDateTime">Date &amp; Time of Reporting <span class="required-star">*</span></label>
-              <input type="datetime-local" id="reportDateTime" name="reportDateTime" required>
+              <label for="reportDateTime">Date &amp; Time of Reporting</label>
+              <input type="datetime-local" id="reportDateTime" name="reportDateTime">
             </div>
           </div>
 
           <!-- How was Error Identified? -->
           <div class="form-group">
-            <label>How was Error Identified? <span class="required-star">*</span></label>
+            <label>How was Error Identified?</label>
             <div class="radio-group" data-name="howIdentified">
               <input type="radio" name="howIdentified" value="Chart Review" id="howId_chartReview">
               <div class="radio-option" data-value="Chart Review" onclick="selectRadio(this)">Chart Review</div>
@@ -153,7 +153,7 @@
 
           <!-- Type of Errors -->
           <div class="form-group">
-            <label>Type of Errors <span class="required-star">*</span></label>
+            <label>Type of Errors</label>
             <div class="checkbox-group checkbox-grid" data-name="typeOfErrors">
               <input type="checkbox" name="typeOfErrors" value="Prescribing" id="err_prescribing">
               <div class="checkbox-option" data-value="Prescribing" onclick="toggleCheckbox(this)">Prescribing</div>
@@ -170,13 +170,13 @@
 
           <!-- Brief Description of Error -->
           <div class="form-group">
-            <label for="errorDescription">Brief Description of Error <span class="required-star">*</span></label>
-            <textarea id="errorDescription" name="errorDescription" placeholder="Describe the error in detail…" required></textarea>
+            <label for="errorDescription">Brief Description of Error</label>
+            <textarea id="errorDescription" name="errorDescription" placeholder="Describe the error in detail…"></textarea>
           </div>
 
           <!-- Did the error reach the patient? -->
           <div class="form-group">
-            <label>Did the error reach the patient? <span class="required-star">*</span></label>
+            <label>Did the error reach the patient?</label>
             <div class="radio-group" data-name="errorReachedPatient">
               <input type="radio" name="errorReachedPatient" value="YES" id="reached_yes">
               <div class="radio-option" data-value="YES" onclick="selectRadio(this)">YES</div>
@@ -197,7 +197,7 @@
         <div class="section-body">
 
           <div class="form-group">
-            <label>Select the applicable outcome <span class="required-star">*</span></label>
+            <label>Select the applicable outcome</label>
             <div data-name="outcomeCategory">
               <input type="radio" name="outcomeCategory" value="A" id="outcome_a">
               <div class="outcome-option" data-value="A" onclick="selectOutcome(this)">
@@ -352,8 +352,8 @@
 
           <!-- Reporter Name -->
           <div class="form-group">
-            <label for="reporterName">Reporter Name <span class="required-star">*</span></label>
-            <select id="reporterName" name="reporterName" required>
+            <label for="reporterName">Reporter Name</label>
+            <select id="reporterName" name="reporterName">
               <option value="">Choose</option>
               <option value="Dr. Senthilnathan">Dr. Senthilnathan</option>
               <option value="Dr. NitheeshKumar">Dr. NitheeshKumar</option>
@@ -365,7 +365,7 @@
 
           <!-- Error Picture -->
           <div class="form-group">
-            <label>Error Picture <span class="required-star">*</span></label>
+            <label>Error Picture</label>
             <div class="file-upload-area" id="fileUploadArea">
               <div class="upload-icon">📸</div>
               <p class="upload-text">Click or drag &amp; drop to upload</p>
